@@ -1,19 +1,34 @@
 <?php
-require_once 'MyProject/CLasses/User.php';
-require_once 'MyProject/CLasses/SuperUser.php';
 
-$user1 = new User('Агроном','Сын_Агронома','Братва_и_Кольцо');
-$user1 -> showinfo().PHP_EOL;
-echo "<br>";
+spl_autoload_register(function ($class) {
+    $file = str_replace('\\', '/', __DIR__) . str_replace('\\', '/', substr($class,9)) . '.php'; 
+    // echo str_replace('\\', '/', __DIR__) . str_replace('\\', '/', substr($class,9)) . '.php';
+   
+    if (file_exists($file)) {
+        require $file;
+        
+    }
+});
 
-$user2 = new User('Рэдрик','Шухарт','Счастье_для_всех');
-$user2 -> showinfo().PHP_EOL;
-echo "<br>";
 
-$user3 = new User('Филимон','Разгульдяев','Это_придумала_Полина');
-$user3 -> showinfo().PHP_EOL;
-echo "<br>";
+use MyProject\Classes\User;
+use MyProject\Classes\SuperUser;
 
-$user4 = new SuperUser('Пауль','Атрейдес','Муад_диб','Король Фрименов');
-$user4 -> showinfo().PHP_EOL;
-echo "<br>";
+
+$user1 = new User('Nikita', 'qwe123', 'password1');
+$user2 = new User('Rtoma', 'asd456', 'password2');
+$user3 = new User('max', 'zxc789', 'password3');
+
+
+
+$user1->showInfo();
+$user2->showInfo();
+$user3->showInfo();
+
+$user = new SuperUser('Lina', 'laguna', 'dragon slave', 'admin');
+$user->showInfo();
+$user->getInfo();
+
+echo "<p>Всего обычных пользователей: " . User::$userCount . "\n</p>";
+echo "<p>Всего cупер-пользователей: " . SuperUser::$superUserCount . "\n</p>";
+
